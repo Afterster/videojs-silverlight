@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("videojs-silverlight")]
+[assembly: AssemblyTitle("video_js")]
 [assembly: AssemblyDescription("Silverlight player for http://www.videojs.com/ forked from http://mediaelementjs.com/")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("John Dyer")]
-[assembly: AssemblyProduct("videojs-silverlight")]
+[assembly: AssemblyProduct("video_js")]
 [assembly: AssemblyCopyright("Copyright 2010 John Dyer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

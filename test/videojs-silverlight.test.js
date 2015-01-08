@@ -44,7 +44,7 @@
       player = videojs(video);
 
       // initialize the plugin with the default options
-      player.silverlight();
+      //player.silverlight();
     },
     teardown: function() {
       videojs.Html5.isSupported = realIsHtmlSupported;
@@ -52,6 +52,6 @@
   });
 
   test('registers itself', function() {
-    ok(player.silverlight, 'registered the plugin');
+    ok(player, 'registered the plugin');
   });
 })(window, window.videojs, window.QUnit);

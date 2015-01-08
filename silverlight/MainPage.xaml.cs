@@ -13,7 +13,7 @@ using System.Windows.Browser;
 using System.Globalization;
 
 
-namespace videojs_silverlight
+namespace video_js
 {
 	[ScriptableType]
 	public partial class MainPage : UserControl
