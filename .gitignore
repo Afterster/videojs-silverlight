@@ -9,7 +9,8 @@ dist/
 /silverlight/obj
 /silverlight/bin
 *.wmv
-*.flv
-*.swf
+*.wma
+*.mp3
+*.mp4
 *.xap
 build/

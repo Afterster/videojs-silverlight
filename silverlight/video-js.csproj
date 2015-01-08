@@ -19,7 +19,7 @@
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>video_js.xap</XapFilename>
+    <XapFilename>video-js.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>video_js.App</SilverlightAppEntry>
     <TestPageFileName>SilverlightMediaElementTestPage.html</TestPageFileName>

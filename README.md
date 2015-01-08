@@ -2,13 +2,19 @@
 
 Video.js Silverlight Tech plug-in
 
+A Video.js tech plugin that add WMV, WMA, MP4 (AAC / H264 codecs) and MP3 stream support through Silverlight.
+
 ## Getting Started
 
-Once you've added the plugin script to your page, you can use it with any video:
-
+Once you've added the plugin script to your page, you can use it with any supported video:
+ * Include JavaScript files
 ```html
 <script src="video.js"></script>
 <script src="videojs-silverlight.js"></script>
+```
+ * And add this new tech to the player:
+```html
+data-setup='{ "techOrder": ["silverlight"] }'
 ```
 
 There's also a [working example](example.html) of the plugin you can check out if you're having trouble.
@@ -16,11 +22,12 @@ There's also a [working example](example.html) of the plugin you can check out i
 ## Documentation
 ### Plugin Options
 
-You may pass in an options object to the plugin upon initialization. This
-object may contain any of the following properties:
-
-#### option
-
+This plugin has a global configuration to setup XAP file location.
+```html
+<script>
+    videojs.options.silverlight.xap = "video-js.xap";
+</script>
+```
 
 ## Release History
 
