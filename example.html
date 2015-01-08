@@ -21,6 +21,13 @@
       margin: 40px auto;
     }
   </style>
+  
+  <script src="node_modules/video.js/dist/video-js/video.js"></script>
+  <script src="lib/videojs-silverlight.js"></script>
+  <!-- Unless using the CDN hosted version, update the URL to the Silverlight XAP -->
+  <script>
+    videojs.options.silverlight.xap = "videojs-silverlight.xap";
+  </script>
 </head>
 <body>
   <div class="info">
@@ -33,18 +40,14 @@
          class="video-js vjs-default-skin"
          height="300"
          width="600"
-         controls>
+         controls="true"
+         data-setup='{ "techOrder": ["silverlight"], "controls": "true" }'>
     <p>
       Your browser doesn't support video. Please <a href="http://browsehappy.com/">upgrade your browser</a> to see the example.
     </p>
-    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
-    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+    <source src="http://localhost/test_aurora/test.mp3" type="audio/mpeg">
+    <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">-->
   </video>
-  <script src="node_modules/video.js/dist/video-js/video.js"></script>
-  <script src="lib/videojs-silverlight.js"></script>
-  <script>
-    // fire up the plugin
-    videojs('video').silverlight();
-  </script>
 </body>
 </html>

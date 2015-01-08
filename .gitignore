@@ -3,3 +3,8 @@
 node_modules/
 dist/
 *~
+/nbproject/private/
+*.suo
+*.user
+/silverlight/obj
+/silverlight/bin
