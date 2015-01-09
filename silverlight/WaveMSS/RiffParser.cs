@@ -174,7 +174,6 @@ namespace video_js.WaveMSS
 
             this.stream = stream;
             this.br = new BinaryReader(stream);
-
             this.ReadRiffHeader();
         }
 
@@ -493,10 +492,8 @@ namespace video_js.WaveMSS
             {
                 throw new InvalidOperationException("The container offset needs to be positive");
             }
-
             // Seek to the start of the container.
             this.stream.Position = this.containerOffset;
-
             // Read the header
             header.FCC = (FourCC)this.br.ReadUInt32();
             header.Size = this.br.ReadUInt32();

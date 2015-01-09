@@ -203,6 +203,9 @@ namespace video_js.WaveMSS
             }
 
             this.currentPosition = this.wavParser.WaveFormatEx.BufferSizeFromAudioDuration(seekToTime) + this.startPosition;
+
+            this.wavParser.MoveToChunkOffset((uint)this.wavParser.WaveFormatEx.BufferSizeFromAudioDuration(seekToTime));
+
             this.currentTimeStamp = seekToTime;
             ReportSeekCompleted(seekToTime);
         }

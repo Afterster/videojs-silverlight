@@ -20,6 +20,8 @@ namespace video_js
 	[ScriptableType]
 	public partial class MainPage : UserControl
 	{
+        static HtmlWindow window = null;
+
 		System.Windows.Threading.DispatcherTimer _timer;
 			
 		// work arounds for src, load(), play() compatibility
@@ -29,6 +31,7 @@ namespace video_js
 		// variables
 		string _mediaUrl;
         string _codec;
+        MediaStreamSource _streamSource;
         string _jsInitFunction;
         string _jsCallbackFunction;
 		string _preload;
@@ -62,6 +65,7 @@ namespace video_js
 		public MainPage(IDictionary<string, string> initParams)
 		{
 			InitializeComponent();
+            window = HtmlPage.Window;
 
 			HtmlPage.RegisterScriptableObject("MediaElementJS", this);
 
@@ -215,7 +219,11 @@ namespace video_js
 		}
 
 		void WriteDebug(string text) {
-			textBox1.Text += text + "\n";
+            if (_debug)
+            {
+                textBox1.Text += text + "\n";
+            }
+            //ConsoleLog(text);
 		}
 
 		void media_MediaFailed(object sender, ExceptionRoutedEventArgs e) {
@@ -346,7 +354,8 @@ namespace video_js
 			WriteDebug("method:play " + media.CurrentState);
 
 			// sometimes people forget to call load() first
-			if (_mediaUrl != "" && media.Source == null) {
+            if (_mediaUrl != "" && media.Source == null && _streamSource == null)
+            {
 				_isAttemptingToPlay = true;
 				loadMedia();
 			}
@@ -390,19 +399,13 @@ namespace video_js
             switch (_codec)
             {
                 case "audio/wav":
-                    HttpWebRequest request = WebRequest.CreateHttp(_mediaUrl);
-                    request.BeginGetRequestStream(asyncState =>
-                    {
-                        HttpWebRequest req = (HttpWebRequest)asyncState.AsyncState;
-                        // Should we close it on some MediaElement event?
-                        WebResponse response = req.EndGetResponse(asyncState);
-                        Stream stream = response.GetResponseStream();
-                        MediaStreamSource streamSource = new WaveMediaStreamSource(stream);
-                        media.SetSource(streamSource);
-                    }, request);
+                    Stream stream = new PartialHTTPStream(_mediaUrl);
+                    _streamSource = new WaveMediaStreamSource(stream);
+                    media.SetSource(_streamSource);
                     break;
 
                 default:
+                    _streamSource = null;
                     media.Source = new Uri(_mediaUrl, UriKind.Absolute);
                     break;
             }
@@ -654,6 +657,29 @@ namespace video_js
         }
 
         #endregion
+
+        public static void ConsoleLog(string message)
+        {
+            if (!window.Dispatcher.CheckAccess())
+            {
+                window.Dispatcher.BeginInvoke(new Action(delegate()
+                {
+                    ConsoleLog(message);
+                }));
+                return;
+            }
+
+            var isConsoleAvailable = (bool)window.Eval("typeof(console)" +
+                    " != 'undefined' && typeof(console.log) != 'undefined'");
+            if (isConsoleAvailable)
+            {
+                var console = window.Eval("console.log") as ScriptObject;
+                if (console != null)
+                {
+                    console.InvokeSelf(message);
+                }
+            }
+        }
 	}
 }
 
