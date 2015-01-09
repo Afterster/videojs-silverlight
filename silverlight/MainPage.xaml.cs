@@ -11,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Browser;
 using System.Globalization;
+using video_js.WaveMSS;
+using System.IO;
 
 
 namespace video_js
@@ -26,6 +28,7 @@ namespace video_js
 
 		// variables
 		string _mediaUrl;
+        string _codec;
         string _jsInitFunction;
         string _jsCallbackFunction;
 		string _preload;
@@ -62,6 +65,7 @@ namespace video_js
 
 			HtmlPage.RegisterScriptableObject("MediaElementJS", this);
 
+            _codec = String.Empty;
 
 			// add events
 			media.BufferingProgressChanged += new RoutedEventHandler(media_BufferingProgressChanged);
@@ -139,7 +143,7 @@ namespace video_js
 			media.AutoPlay = _autoplay;
 			media.Volume = _volume;
 			if (!String.IsNullOrEmpty(_mediaUrl)) {
-				setSrc(_mediaUrl);
+				setSrc(_mediaUrl, _codec);
 				if (_autoplay || _preload != "none")
 					loadMedia();
 			}
@@ -382,9 +386,26 @@ namespace video_js
 			WriteDebug("method:load " + media.CurrentState);
 			WriteDebug(" - " + _mediaUrl.ToString());
 
-			media.Source = new Uri(_mediaUrl, UriKind.Absolute);
-			//media.Play();
-			//media.Stop();
+            // Load custom MediaStreamSource
+            switch (_codec)
+            {
+                case "audio/wav":
+                    HttpWebRequest request = WebRequest.CreateHttp(_mediaUrl);
+                    request.BeginGetRequestStream(asyncState =>
+                    {
+                        HttpWebRequest req = (HttpWebRequest)asyncState.AsyncState;
+                        // Should we close it on some MediaElement event?
+                        WebResponse response = req.EndGetResponse(asyncState);
+                        Stream stream = response.GetResponseStream();
+                        MediaStreamSource streamSource = new WaveMediaStreamSource(stream);
+                        media.SetSource(streamSource);
+                    }, request);
+                    break;
+
+                default:
+                    media.Source = new Uri(_mediaUrl, UriKind.Absolute);
+                    break;
+            }
 		}
 
 		[ScriptableMember]
@@ -430,8 +451,9 @@ namespace video_js
 		}
 
 		[ScriptableMember]
-		public void setSrc(string url) {
+		public void setSrc(string url, string codec) {
 			_mediaUrl = url;
+            _codec = codec;
 		}
 
 		[ScriptableMember]

@@ -12,5 +12,6 @@ dist/
 *.wma
 *.mp3
 *.mp4
+*.wav
 *.xap
 build/
