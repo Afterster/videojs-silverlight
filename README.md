@@ -2,7 +2,7 @@
 
 Video.js Silverlight Tech plug-in
 
-A Video.js tech plugin that add WMV, WMA, MP4 (AAC / H264 codecs) and MP3 stream support through Silverlight.
+A Video.js tech plugin that add WMV, WMA, MP4 (AAC / H264 codecs), MP3, WAV (PCM) and FLAC (no seeking) stream support through Silverlight.
 
 ## Getting Started
 
@@ -31,4 +31,5 @@ This plugin has a global configuration to setup XAP file location.
 
 ## Release History
 
+ - 0.2.0: Wav and Flac support
  - 0.1.0: Initial release

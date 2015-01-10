@@ -223,7 +223,7 @@ namespace video_js
             {
                 textBox1.Text += text + "\n";
             }
-            //ConsoleLog(text);
+            ConsoleLog(text);
 		}
 
 		void media_MediaFailed(object sender, ExceptionRoutedEventArgs e) {
@@ -399,9 +399,20 @@ namespace video_js
             switch (_codec)
             {
                 case "audio/wav":
-                    Stream stream = new PartialHTTPStream(_mediaUrl);
-                    _streamSource = new WaveMediaStreamSource(stream);
-                    media.SetSource(_streamSource);
+                    {
+                        Stream stream = new PartialHTTPStream(_mediaUrl);
+                        _streamSource = new WaveMediaStreamSource(stream);
+                        media.SetSource(_streamSource);
+                    }
+                    break;
+
+                case "audio/flac":
+                    {
+                        Stream stream = new PartialHTTPStream(_mediaUrl);
+                        FlacBox.WaveOverFlacStream flacStream = new FlacBox.WaveOverFlacStream(stream, FlacBox.WaveOverFlacStreamMode.Decode);
+                        _streamSource = new WaveMediaStreamSource(flacStream);
+                        media.SetSource(_streamSource);
+                    }
                     break;
 
                 default:
